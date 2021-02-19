@@ -11,7 +11,7 @@ const GoodsSchema = new Schema({
     type: 'String',
     required: true
   },
-  title: {
+  name: {
     type: 'String',
     required: true
   },
@@ -20,7 +20,7 @@ const GoodsSchema = new Schema({
     required: false
   },
   images: {
-    type: 'Array',
+    type: 'Object',
     required: false
   },
   desc: {
@@ -40,6 +40,14 @@ const GoodsSchema = new Schema({
     default: 0,
   },
   stock: {
+    type: 'Number',
+    default: 10000,
+  },
+  sellingPrice: {
+    type: 'Number',
+    default: 0,
+  },
+  originalPrice: {
     type: 'Number',
     default: 0,
   },

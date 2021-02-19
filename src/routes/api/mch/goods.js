@@ -28,9 +28,12 @@ router.post('/add', async (ctx) => {
       }
       // const { id, name } = decode
       // // 实例化数据
+      const { images, name: goodsName, type, desc, stock = 1000, sellingPrice = 0, originalPrice = 0 } = ctx.request.body
       const newGoods = new Goods({
         id: uuidv1(),
-        ...ctx.request.body
+        name: goodsName,
+        type, desc, stock, stock, sellingPrice, originalPrice,
+        images: images.split(',')
       })
       // 存储到数据库
       await newGoods.save()
@@ -39,6 +42,8 @@ router.post('/add', async (ctx) => {
         message: 'success'
       }
     })
+  } else {
+    paramNotCertf(ctx)
   }
 })
 
@@ -66,13 +71,15 @@ router.post('/list', async (ctx) => {
       const reg = new RegExp(goodsName, 'i')
       const result = await Goods.find({
         $or: [
-          { title: { $regex: reg } },
+          { name: { $regex: reg } },
         ]
       },
-        { id: 1, type: 1, title: 1, cover: 1, images: 1, desc: 1, createTime: 1, _id: 0 }
+        { id: 1, type: 1, name: 1, cover: 1, images: 1, desc: 1, createTime: 1, createTime: 1, saleNum: 1, _id: 0 }
       )
       listParam(ctx, { pageNum, numPerPage }, result)
     })
+  } else {
+    paramError(ctx)
   }
 })
 
